@@ -1,6 +1,6 @@
 var express = require("express");
 var app = express();
-var path = require("path"); // Add this require statement
+var path = require("path");
 
 var locationDetailsPath = path.join(__dirname, "data", "locationdetails.json");
 var restaurantPhotosPath = path.join(__dirname, "data", "restaurantphotos.json");
@@ -43,7 +43,7 @@ app.get("/api/restaurants", function (req, res) {
   res.json(restaurants);
 });
 
-// Get all restaurants photos
+// Get all restaurant photos
 app.get("/api/restaurantphotos", function (req, res) {
   res.json(restaurantPhotos);
 });
@@ -58,14 +58,9 @@ app.get("/api/restaurants/:id", function (req, res) {
   res.json(restaurant);
 });
 
-//get all reviews
-app.get("/api/reviews", function (req, res) {
-  res.json(reviews);
-});
-
 // Get a specific restaurant photo by ID
 app.get("/api/restaurantphotos/:id", function (req, res) {
-  const photoId = parseInt(req.params.photoId);
+  const photoId = parseInt(req.params.id);
   const photo = restaurantPhotos.find((p) => p.id === photoId);
   if (!photo) {
     return res.status(404).json({ error: "Photo not found" });
@@ -73,17 +68,20 @@ app.get("/api/restaurantphotos/:id", function (req, res) {
   res.json(photo);
 });
 
+// Get all reviews
+app.get("/api/reviews", function (req, res) {
+  res.json(reviews);
+});
+
 // Get a specific review by ID
 app.get("/api/reviews/:id", function (req, res) {
-  const id = parseInt(req.params.id);
-  const review = reviews.find((r) => r.id === id);
+  const reviewId = parseInt(req.params.id);
+  const review = reviews.find((r) => r.id === reviewId);
   if (!review) {
     return res.status(404).json({ error: "Review not found" });
   }
   res.json(review);
 });
-
-app.use(express.static("public"));
 
 app.set("port", process.env.PORT || 8000);
 
