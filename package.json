@@ -1,12 +1,12 @@
 {
-    "name": "harry-potter-api",
-    "description": "Harry Potter API",
+    "name": "trip-advisor-api",
+    "description": "Trip Advisor API",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
         "express": "3.x"
-    }
-    "scripts:"{
+    },
+    "scripts":{
         "start":"node server.js" 
     }
 }
