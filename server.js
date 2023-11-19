@@ -54,8 +54,8 @@ app.get("/api/restaurants/:id", function (req, res) {
 });
 
 // Get a specific restaurant photo by ID
-app.get("/api/restaurantphotos/:id", function (req, res) {
-  const photoId = parseInt(req.params.id);
+app.get("/api/restaurantphotos/:photoId", function (req, res) {
+  const photoId = parseInt(req.params.photoId);
   const photo = restaurantPhotos.find((p) => p.id === photoId);
   if (!photo) {
     return res.status(404).json({ error: "Photo not found" });
@@ -65,8 +65,8 @@ app.get("/api/restaurantphotos/:id", function (req, res) {
 
 // Get a specific review by ID
 app.get("/api/reviews/:id", function (req, res) {
-  const reviewId = parseInt(req.params.id);
-  const review = reviews.find((r) => r.id === reviewId);
+  const id = parseInt(req.params.id);
+  const review = reviews.find((r) => r.id === id);
   if (!review) {
     return res.status(404).json({ error: "Review not found" });
   }
