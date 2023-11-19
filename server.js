@@ -9,37 +9,70 @@ app.use("/api", function (req, res, next) {
 });
 
 app.get("/", function (req, res) {
-  res.sendfile("public/index.html");
+  res.sendFile("public/index.html", { root: __dirname });
 });
 
-app.get("/api/characters", function (req, res) {
-  res.json(characters);
+// Get all locations
+app.get("/api/locationdetails", function (req, res) {
+  res.json(locations);
 });
 
-app.get("/api/characters/students", function (req, res) {
-  res.json(characters.filter((character) => character.hogwartsStudent));
+// Get a specific location by ID
+app.get("/api/locations/:locationId", function (req, res) {
+  const locationId = parseInt(req.params.id);
+  const location = locations.find((loc) => loc.id === locationId);
+  if (!location) {
+    return res.status(404).json({ error: "Location not found" });
+  }
+  res.json(location);
 });
 
-app.get("/api/characters/staff", function (req, res) {
-  res.json(characters.filter((character) => character.hogwartsStaff));
+// Get all restaurants
+app.get("/api/restaurants", function (req, res) {
+  res.json(restaurants);
 });
 
-app.get("/api/characters/house/:house", function (req, res) {
-  var house = req.params.house.toLowerCase();
-  res.json(
-    characters.filter((character) => character.house.toLowerCase() === house)
-  );
+// Get a specific restaurant by ID
+app.get("/api/restaurants/:id", function (req, res) {
+  const restaurantId = parseInt(req.params.id);
+  const restaurant = restaurants.find((rest) => rest.id === restaurantId);
+  if (!restaurant) {
+    return res.status(404).json({ error: "Restaurant not found" });
+  }
+  res.json(restaurant);
 });
 
-app.get("/api/spells", function(req, res){
-  res.json(spells);
+// Get a specific photo by ID
+app.get("/api/restaurantphotos/:id", function (req, res) {
+  const photoId = parseInt(req.params.id);
+  const photo = photos.find((p) => p.id === photoId);
+  if (!photo) {
+    return res.status(404).json({ error: "Photo not found" });
+  }
+  res.json(photo);
 });
+
+// Get a specific review by ID
+app.get("/api/reviews/:id", function (req, res) {
+  const reviewId = parseInt(req.params.id);
+  const review = reviews.find((r) => r.id === reviewId);
+  if (!review) {
+    return res.status(404).json({ error: "Review not found" });
+  }
+  res.json(review);
+});
+
+
 
 app.use(express.static("public"));
 
-app.set("port", (process.env.PORT || 8000));
+app.set("port", process.env.PORT || 8000);
 
 console.log("Port:", app.get("port"));
-app.listen(app.get("port"), function() {
+app.listen(app.get("port"), function () {
   console.log("Node app is running on port", app.get("port"));
 });
+
+console.log('Current directory:', __dirname);
+console.log('File path:', path.join(__dirname, 'data', 'characters.json'));
+
