@@ -71,6 +71,31 @@ app.get("/api/restaurantphotos/:locationId", function (req, res) {
   }
 });
 
+// Get nearby restaurants based on latitude and longitude
+app.get("/api/restaurants/nearby", function (req, res) {
+  // Get latitude and longitude from query parameters
+  const latitude = parseFloat(req.query.latitude);
+  const longitude = parseFloat(req.query.longitude);
+
+  if (isNaN(latitude) || isNaN(longitude)) {
+    return res.status(400).json({ error: "Invalid latitude or longitude" });
+  }
+
+  // Define a function to calculate distance between two points (you may use a library for this)
+  function calculateDistance(lat1, lon1, lat2, lon2) {
+    // Your distance calculation logic goes here
+  }
+
+  // Filter restaurants by distance from the specified latitude and longitude
+  const nearbyRestaurants = restaurants.filter((restaurant) => {
+    const distance = calculateDistance(latitude, longitude, restaurant.latitude, restaurant.longitude);
+    // Adjust the threshold distance as needed
+    return distance < 5; // For example, filter restaurants within 5 kilometers
+  });
+
+  res.json(nearbyRestaurants);
+});
+
 
 // Get all reviews
 app.get("/api/reviews", function (req, res) {
@@ -86,6 +111,21 @@ app.get("/api/reviews/:id", function (req, res) {
   }
   res.json(review);
 });
+
+// Get reviews based on location ID
+app.get("/api/reviews/location/:locationId", function (req, res) {
+  const locationId = parseInt(req.params.locationId);
+  
+  // Filter reviews by location ID
+  const locationReviews = reviews.data.filter((review) => review.location_id === locationId);
+  
+  if (locationReviews.length === 0) {
+    return res.status(404).json({ error: "No reviews found for this location" });
+  }
+  
+  res.json(locationReviews);
+});
+
 
 app.set("port", process.env.PORT || 8080);
 
