@@ -71,30 +71,22 @@ app.get("/api/restaurantphotos/:locationId", function (req, res) {
   }
 });
 
-// Get nearby restaurants based on latitude and longitude
+// Get nearby restaurants based on country name
 app.get("/api/restaurants/nearby", function (req, res) {
-  // Get latitude and longitude from query parameters
-  const latitude = parseFloat(req.query.latitude);
-  const longitude = parseFloat(req.query.longitude);
+  const countryName = req.query.countryName;
 
-  if (isNaN(latitude) || isNaN(longitude)) {
-    return res.status(400).json({ error: "Invalid latitude or longitude" });
+  if (!countryName) {
+    return res.status(400).json({ error: "Country name is required" });
   }
 
-  // Define a function to calculate distance between two points (you may use a library for this)
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    // Your distance calculation logic goes here
-  }
-
-  // Filter restaurants by distance from the specified latitude and longitude
+  // Filter restaurants by matching the country name
   const nearbyRestaurants = restaurants.filter((restaurant) => {
-    const distance = calculateDistance(latitude, longitude, restaurant.latitude, restaurant.longitude);
-    // Adjust the threshold distance as needed
-    return distance < 5; // For example, filter restaurants within 5 kilometers
+    return restaurant.address_obj.country === countryName;
   });
 
   res.json(nearbyRestaurants);
 });
+
 
 
 // Get all reviews
