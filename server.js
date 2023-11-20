@@ -58,15 +58,19 @@ app.get("/api/restaurants/:id", function (req, res) {
   res.json(restaurant);
 });
 
-// Get a specific restaurant photo by ID
-app.get("/api/restaurantphotos/:id", function (req, res) {
-  const photoId = parseInt(req.params.id);
-  const photo = restaurantPhotos.find((p) => p.id === photoId);
-  if (!photo) {
-    return res.status(404).json({ error: "Photo not found" });
+// Get restaurant photos with optional locationId query parameter
+app.get("/api/restaurantphotos", function (req, res) {
+  const locationId = parseInt(req.query.locationId);
+  if (!isNaN(locationId)) {
+    // Filter photos by locationId
+    const filteredPhotos = restaurantPhotos.filter((p) => p.locationId === locationId);
+    res.json(filteredPhotos);
+  } else {
+    // Return all photos if no locationId is specified
+    res.json(restaurantPhotos);
   }
-  res.json(photo);
 });
+
 
 // Get all reviews
 app.get("/api/reviews", function (req, res) {
