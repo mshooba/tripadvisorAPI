@@ -78,19 +78,15 @@ app.get("/api/restaurants", function (req, res) {
   if (!countryName) {
     res.json(restaurants);
   } else {
-    // Filter restaurants by countryName
-    const filteredRestaurants = restaurants.data.filter((restaurant) => {
+    // Flatten the structure and filter restaurants by countryName
+    const allRestaurants = restaurants.map((data) => data.data).flat();
+    const filteredRestaurants = allRestaurants.filter((restaurant) => {
       return restaurant.address_obj.country.toLowerCase() === countryName.toLowerCase();
     });
 
     res.json({ data: filteredRestaurants });
   }
 });
-
-
-
-
-
 
 // Get all reviews
 app.get("/api/reviews", function (req, res) {
