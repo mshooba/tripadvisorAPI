@@ -87,7 +87,7 @@ app.get("/api/reviews/:id", function (req, res) {
   res.json(review);
 });
 
-app.set("port", process.env.PORT || 8000);
+app.set("port", process.env.PORT || 8080);
 
 console.log("Port:", app.get("port"));
 app.listen(app.get("port"), function () {
