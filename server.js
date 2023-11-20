@@ -72,20 +72,21 @@ app.get("/api/restaurantphotos/:locationId", function (req, res) {
 });
 
 // Get nearby restaurants based on country name
-app.get("/api/restaurants/nearby", function (req, res) {
+app.get("/api/restaurants", function (req, res) {
   const countryName = req.query.countryName;
 
   if (!countryName) {
-    return res.status(400).json({ error: "Country name is required" });
+    res.json(restaurants);
+  } else {
+    // Filter restaurants by countryName
+    const filteredRestaurants = restaurants.data.filter((restaurant) => {
+      return restaurant.address_obj.country.toLowerCase() === countryName.toLowerCase();
+    });
+
+    res.json({ data: filteredRestaurants });
   }
-
-  // Filter restaurants by matching the country name
-  const nearbyRestaurants = restaurants.filter((restaurant) => {
-    return restaurant.address_obj.country === countryName;
-  });
-
-  res.json(nearbyRestaurants);
 });
+
 
 
 
