@@ -38,25 +38,11 @@ app.get("/api/locationdetails/:locationId", function (req, res) {
   res.json(location);
 });
 
-// Get all restaurants
-// app.get("/api/restaurants", function (req, res) {
-//   res.json(restaurants);
-// });
-
 // Get all restaurant photos
 app.get("/api/restaurantphotos", function (req, res) {
   res.json(restaurantPhotos);
 });
 
-// Get a specific restaurant by ID
-// app.get("/api/restaurants/:id", function (req, res) {
-//   const restaurantId = parseInt(req.params.id);
-//   const restaurant = restaurants.find((rest) => rest.id === restaurantId);
-//   if (!restaurant) {
-//     return res.status(404).json({ error: "Restaurant not found" });
-//   }
-//   res.json(restaurant);
-// });
 
 // Get restaurant photos with optional locationId query parameter
 app.get("/api/restaurantphotos/:locationId", function (req, res) {
@@ -116,7 +102,6 @@ app.get("/api/reviews/location/:locationId", function (req, res) {
   
   res.json(locationReviews);
 });
-
 
 app.set("port", process.env.PORT || 8080);
 
