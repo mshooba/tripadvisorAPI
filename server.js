@@ -59,14 +59,14 @@ app.get("/api/restaurants/:id", function (req, res) {
 });
 
 // Get restaurant photos with optional locationId query parameter
-app.get("/api/restaurantphotos", function (req, res) {
-  const locationId = parseInt(req.query.locationId);
+app.get("/api/restaurantphotos/:locationId", function (req, res) {
+  const locationId = parseInt(req.params.locationId);
   if (!isNaN(locationId)) {
     // Filter photos by locationId
     const filteredPhotos = restaurantPhotos.filter((p) => p.locationId === locationId);
     res.json(filteredPhotos);
   } else {
-    // Return all photos if no locationId is specified
+    // Return all photos if locationId is not a valid integer
     res.json(restaurantPhotos);
   }
 });
