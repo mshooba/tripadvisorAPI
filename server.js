@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var path = require("path");
 
-//define paths
+//define oaths
 var locationDetailsPath = path.join(__dirname, "data", "locationdetails.json");
 var restaurantPhotosPath = path.join(__dirname, "data", "restaurantphotos.json");
 var reviewsPath = path.join(__dirname, "data", "reviews.json");
@@ -74,20 +74,6 @@ app.get("/api/restaurants", function (req, res) {
     res.json({ data: filteredRestaurants });
   }
 });
-
-// Get a specific restaurant by locationID
-app.get("/api/restaurants/:locationId", function (req, res) {
-  const locationId = req.params.locationId;
-  const allRestaurants = restaurants.map((data) => data.data).flat();
-  const restaurant = allRestaurants.find((r) => r.location_id === locationId);
-
-  if (!restaurant) {
-    return res.status(404).json({ error: "Restaurant not found" });
-  }
-
-  res.json(restaurant);
-});
-
 
 // Get all reviews
 app.get("/api/reviews", function (req, res) {
